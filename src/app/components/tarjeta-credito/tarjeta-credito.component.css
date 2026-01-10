@@ -1,0 +1,36 @@
+    .fa-regular:hover {
+      transform: scale(1.2) rotate(10deg);
+    }
+
+    .fa-solid:hover {
+      transform: scale(1.2) rotate(10deg);
+    }
+
+   .btn {
+      transition: transform 0.2s ease; /* Suaviza el cambio */
+    }
+    .btn :hover {
+      transform: scale(1.1); /* Aumenta un 10% el tamaño */
+    }
+
+    .btn-hover-scale {
+      transition: transform 0.2s ease; /* Suaviza el cambio */
+    }
+    .btn-hover-scale:hover {
+      transform: scale(1.1); /* Aumenta un 10% el tamaño */
+    }
+
+    .caja{
+      transition: transform 0.2s ease; /* Suaviza el cambio */
+    }
+    .caja:hover {
+      transform: scale(1.1); /* Aumenta un 10% el tamaño */
+    }
+
+    .green-icon {
+      color: green;
+    }
+
+    .red-icon {
+      color: red;
+    }
