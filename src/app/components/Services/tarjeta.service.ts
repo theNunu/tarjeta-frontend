@@ -11,7 +11,7 @@ export class TarjetaService {
 
     // constructor() { }
   private myApiUrl = 'https://localhost:7234/'; // tu backend .NET
-  private endpoint = 'api/Tarjeta';
+  private endpoint = 'api/Tarjeta/';
 
   constructor(private http: HttpClient) {}
 
@@ -22,6 +22,14 @@ export class TarjetaService {
     return this.http.get(`${this.myApiUrl}${this.endpoint}`);
 
     // return this.http.get(this.myApiUrl + this.endpoint);
+  }
+
+  deleteTarjeta(id:number): Observable<any>{
+    return this.http.delete(this.myApiUrl + this.endpoint + id);
+  }
+
+  saveTarjeta(tarjeta: any) :Observable<any>{
+     return this.http.post(this.myApiUrl + this.endpoint, tarjeta);
   }
 
   // crearUsuario(data: any): Observable<any> {

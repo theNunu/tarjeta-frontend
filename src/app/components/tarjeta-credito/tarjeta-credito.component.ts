@@ -53,19 +53,39 @@ export class TarjetaCreditoComponent implements OnInit {
 
     }
 
-    this.listTarjetas.push(tarjeta);
-    this.toastr.success('La tarjeta ha sido agregada con exito!', 'Tarjeta agregada');
-    this.form.reset();
+    this._tarjetaService.saveTarjeta(tarjeta).subscribe(data => {
+      this.toastr.success('La tarjeta ha sido agregada con exito!', 'Tarjeta agregada');
+      this.obtenerTarjetas();
+      this.form.reset();
+
+    }, error => {
+      this.toastr.error('Algo fallo al momentyo de guardar', 'Error');
+      console.log(error);
+
+    })
+    // this.listTarjetas.push(tarjeta);
+    // this.toastr.success('La tarjeta ha sido agregada con exito!', 'Tarjeta agregada');
+    // this.form.reset();
 
   }
 
-  eliminarTarjeta() {
-
-    console.log('eliminar tarjeta');
-    this.toastr.error('La tarjeta ha sido eliminada con exito!', 'Tarjeta eliminada');
-    // this.listTarjetas
+  eliminarTarjeta(id: number) {
+    this._tarjetaService.deleteTarjeta(id).subscribe(data => {
+      this.toastr.error('La tarjeta ha sido eliminada con exito!', 'Tarjeta eliminada');
+      this.obtenerTarjetas();
+    }, error => {
+      console.log(error);
+    });
 
   }
+
+  //  eliminarTarjeta() {
+
+  //   console.log('eliminar tarjeta');
+  //   this.toastr.error('La tarjeta ha sido eliminada con exito!', 'Tarjeta eliminada');
+  //   // this.listTarjetas
+
+  // }
 
 
 }
