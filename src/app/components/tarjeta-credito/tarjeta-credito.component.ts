@@ -17,6 +17,10 @@ export class TarjetaCreditoComponent implements OnInit {
 
   ];
 
+  accion = 'Agregar';
+
+  id: number | undefined;
+
   form: FormGroup;
 
   constructor(private fb: FormBuilder, private toastr: ToastrService, private _tarjetaService: TarjetaService) {
@@ -53,16 +57,34 @@ export class TarjetaCreditoComponent implements OnInit {
 
     }
 
-    this._tarjetaService.saveTarjeta(tarjeta).subscribe(data => {
-      this.toastr.success('La tarjeta ha sido agregada con exito!', 'Tarjeta agregada');
-      this.obtenerTarjetas();
-      this.form.reset();
+    if (this.id == undefined) {
+      //agregamos una tarjeta
+      this._tarjetaService.saveTarjeta(tarjeta).subscribe(data => {
+        this.toastr.success('La tarjeta ha sido agregada con exito!', 'Tarjeta agregada');
+        this.obtenerTarjetas();
+        this.form.reset();
 
-    }, error => {
-      this.toastr.error('Algo fallo al momentyo de guardar', 'Error');
-      console.log(error);
+      }, error => {
+        this.toastr.error('Algo fallo al momentyo de guardar', 'Error');
+        console.log(error);
+      })
+    } else {
+      //editamos tarjeta
+      tarjeta.id = this.id;
+      this._tarjetaService.updateTarjeta(this.id, tarjeta).subscribe(data => {
+        this.form.reset();
+        this.accion = 'Agregar';
+        this.id = undefined;
+        this.toastr.info('La tarjeta ha sido actualizada con exito!', 'Tarjeta actualizada');
+        this.obtenerTarjetas();
+      }, error => {
+        this.toastr.error('Algo fallo al momentyo de guardar', 'Error');
+        console.log(error);
+      })
 
-    })
+    }
+
+
     // this.listTarjetas.push(tarjeta);
     // this.toastr.success('La tarjeta ha sido agregada con exito!', 'Tarjeta agregada');
     // this.form.reset();
@@ -76,6 +98,19 @@ export class TarjetaCreditoComponent implements OnInit {
     }, error => {
       console.log(error);
     });
+
+  }
+
+  editarTarjeta(tarjeta: any) {
+    this.accion = 'Editar';
+    this.id = tarjeta.id;
+
+    this.form.patchValue({
+      titular: tarjeta.titular,
+      numeroTarjeta: tarjeta.numeroTarjeta,
+      fechaExportacion: tarjeta.fechaExpiracion,
+      cvv: tarjeta.cvv
+    })
 
   }
 
